@@ -1,0 +1,50 @@
+package co.tiagoaguiar.course.instagram.Register.View
+
+import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
+import co.tiagoaguiar.course.instagram.R
+import co.tiagoaguiar.course.instagram.Register.View.RegisterNamePasswordFragment.Companion.KEY_EMAIL
+import co.tiagoaguiar.course.instagram.databinding.ActivityRegisterBinding
+
+class RegisterActivity : AppCompatActivity(), FragmentAttachListener {
+
+    private lateinit var binding: ActivityRegisterBinding
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        binding = ActivityRegisterBinding.inflate(layoutInflater)
+        setContentView(R.layout.activity_register)
+
+        val fragment = RegisterEmailFragment()
+
+        replaceFragment(fragment)
+    }
+
+    override fun goToNameAndPasswordScreen(email: String) {
+        val fragment = RegisterNamePasswordFragment().apply {
+            arguments = Bundle().apply {
+                putString(KEY_EMAIL, email)
+            }
+        }
+
+        replaceFragment(fragment)
+    }
+
+    private fun replaceFragment(fragment: Fragment) {
+
+        if (supportFragmentManager.findFragmentById(R.id.register_fragment) == null) {
+            supportFragmentManager.beginTransaction().apply {
+                add(R.id.register_fragment, fragment)
+                commit()
+            }
+        } else {
+            supportFragmentManager.beginTransaction().apply {
+                replace(R.id.register_fragment, fragment)
+                addToBackStack(null)
+                commit()
+            }
+        }
+    }
+}
