@@ -7,8 +7,8 @@ import co.tiagoaguiar.course.instagram.Register.data.RegisterRepository
 
 class RegisterNameAndPasswordPresenter(
     private var view: RegisterNameAndPassword.View?,
-    private val repository: RegisterRepository
-): RegisterNameAndPassword.Presenter {
+    private val repository: RegisterRepository,
+) : RegisterNameAndPassword.Presenter {
 
     override fun create(email: String, name: String, password: String, confirm: String) {
 

@@ -2,7 +2,6 @@ package co.tiagoaguiar.course.instagram.Register.View
 
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.Fragment
@@ -29,7 +28,8 @@ class RegisterNamePasswordFragment : Fragment(R.layout.fragment_new_name_passwor
 
         presenter = RegisterNameAndPasswordPresenter(this, repository)
 
-        val email = arguments?.getString(KEY_EMAIL) ?: throw IllegalArgumentException("e-mail not found")
+        val email =
+            arguments?.getString(KEY_EMAIL) ?: throw IllegalArgumentException("e-mail not found")
 
 //        Log.i("Teste", email.toString())
 
@@ -84,7 +84,7 @@ class RegisterNamePasswordFragment : Fragment(R.layout.fragment_new_name_passwor
     }
 
     override fun onCreateSucess(name: String) {
-        TODO("abrir a tela de bem-vindo!!")
+//        "abrir a tela de bem-vindo!!"
     }
 
     private val watcher = txtWatcher {
