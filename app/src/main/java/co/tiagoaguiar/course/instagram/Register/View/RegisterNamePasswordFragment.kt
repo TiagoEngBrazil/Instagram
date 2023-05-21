@@ -1,6 +1,7 @@
 package co.tiagoaguiar.course.instagram.Register.View
 
 
+import android.content.Context
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
@@ -16,6 +17,7 @@ class RegisterNamePasswordFragment : Fragment(R.layout.fragment_new_name_passwor
     RegisterNameAndPassword.View {
 
     private var binding: FragmentNewNamePasswordBinding? = null
+    private var framgmentAttachListener: FragmentAttachListener? = null
 
     override lateinit var presenter: RegisterNameAndPassword.Presenter
 
@@ -30,8 +32,6 @@ class RegisterNamePasswordFragment : Fragment(R.layout.fragment_new_name_passwor
 
         val email =
             arguments?.getString(KEY_EMAIL) ?: throw IllegalArgumentException("e-mail not found")
-
-//        Log.i("Teste", email.toString())
 
         binding?.let {
             with(it) {
@@ -67,6 +67,13 @@ class RegisterNamePasswordFragment : Fragment(R.layout.fragment_new_name_passwor
         }
     }
 
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if (context is FragmentAttachListener) {
+            framgmentAttachListener = context
+        }
+    }
+
     override fun showProgress(enabled: Boolean) {
         binding?.registerNameBtnNext?.showProgress(enabled)
     }
@@ -84,7 +91,7 @@ class RegisterNamePasswordFragment : Fragment(R.layout.fragment_new_name_passwor
     }
 
     override fun onCreateSucess(name: String) {
-//        "abrir a tela de bem-vindo!!"
+        framgmentAttachListener?.goToWelcomeScreen(name)
     }
 
     private val watcher = txtWatcher {

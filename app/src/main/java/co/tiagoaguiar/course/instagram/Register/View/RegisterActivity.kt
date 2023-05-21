@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import co.tiagoaguiar.course.instagram.R
 import co.tiagoaguiar.course.instagram.Register.View.RegisterNamePasswordFragment.Companion.KEY_EMAIL
+import co.tiagoaguiar.course.instagram.Register.View.RegisterWelcomeFragment.Companion.KEY_NAME
 import co.tiagoaguiar.course.instagram.databinding.ActivityRegisterBinding
 
 class RegisterActivity : AppCompatActivity(), FragmentAttachListener {
@@ -26,6 +27,21 @@ class RegisterActivity : AppCompatActivity(), FragmentAttachListener {
         val fragment = RegisterNamePasswordFragment().apply {
             arguments = Bundle().apply {
                 putString(KEY_EMAIL, email)
+            }
+        }
+
+        replaceFragment(fragment)
+    }
+
+    override fun goToPhotoScreen() {
+        val fragment = RegisterAddPhotoFragment()
+        replaceFragment(fragment)
+    }
+
+    override fun goToWelcomeScreen(name: String) {
+        val fragment = RegisterWelcomeFragment().apply {
+            arguments = Bundle().apply {
+                putString(KEY_NAME, name)
             }
         }
 
