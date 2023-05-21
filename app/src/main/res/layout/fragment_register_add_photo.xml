@@ -39,8 +39,8 @@
                 android:text="@string/photo_register_subtitle"
                 android:textColor="@color/black" />
 
-            <co.tiagoaguiar.course.instagram.login.view.LoadingButton
-                android:id="@+id/register_btn_next_Photo"
+            <co.tiagoaguiar.course.instagram.common.View.LoadingButton
+                android:id="@+id/register_btn_next"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:text="@string/add_photo" />

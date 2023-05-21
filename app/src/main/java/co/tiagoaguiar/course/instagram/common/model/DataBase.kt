@@ -6,7 +6,7 @@ object DataBase {
 
     val usersAuth = hashSetOf<UserAuth>()
 
-    var sassoinAuth: UserAuth? = null
+    var sessoinAuth: UserAuth? = null
 
     init {
         usersAuth.add(UserAuth(UUID.randomUUID().toString(), "UserA", "userA@gmail.com", "12345678"))

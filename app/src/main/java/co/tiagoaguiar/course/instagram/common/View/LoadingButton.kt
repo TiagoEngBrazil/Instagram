@@ -1,4 +1,4 @@
-package co.tiagoaguiar.course.instagram.login.view
+package co.tiagoaguiar.course.instagram.common.View
 
 import android.content.Context
 import android.content.res.TypedArray

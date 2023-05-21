@@ -1,11 +1,19 @@
 package co.tiagoaguiar.course.instagram.Register.View
 
+
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import co.tiagoaguiar.course.instagram.R
 import co.tiagoaguiar.course.instagram.Register.View.RegisterNamePasswordFragment.Companion.KEY_EMAIL
+import co.tiagoaguiar.course.instagram.Register.View.RegisterWelcomeFragment.Companion.KEY_NAME
+import co.tiagoaguiar.course.instagram.common.View.CropperImageFragment
+import co.tiagoaguiar.course.instagram.common.View.CropperImageFragment.Companion.KEY_URI
 import co.tiagoaguiar.course.instagram.databinding.ActivityRegisterBinding
+import co.tiagoaguiar.course.instagram.main.view.MainActivity
 
 class RegisterActivity : AppCompatActivity(), FragmentAttachListener {
 
@@ -32,19 +40,52 @@ class RegisterActivity : AppCompatActivity(), FragmentAttachListener {
         replaceFragment(fragment)
     }
 
-    private fun replaceFragment(fragment: Fragment) {
+    override fun goToPhotoScreen() {
+        val fragment = RegisterAddPhotoFragment()
+        replaceFragment(fragment)
+    }
 
-        if (supportFragmentManager.findFragmentById(R.id.register_fragment) == null) {
-            supportFragmentManager.beginTransaction().apply {
-                add(R.id.register_fragment, fragment)
-                commit()
-            }
-        } else {
-            supportFragmentManager.beginTransaction().apply {
-                replace(R.id.register_fragment, fragment)
-                addToBackStack(null)
-                commit()
+    override fun goToMainScreen() {
+        val intent = Intent(this, MainActivity::class.java )
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        startActivity(intent)
+    }
+
+    private val getContent = registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
+        val fragment = CropperImageFragment().apply {
+            arguments?.apply {
+                putParcelable(KEY_URI, uri)
             }
         }
     }
-}
+
+    override fun goToGalleryScreen() {
+        getContent.launch("image/*")
+    }
+
+    override fun goToWelcomeScreen(name: String) {
+            val fragment = RegisterWelcomeFragment().apply {
+                arguments = Bundle().apply {
+                    putString(KEY_NAME, name)
+                }
+            }
+
+            replaceFragment(fragment)
+        }
+
+        private fun replaceFragment(fragment: Fragment) {
+
+            if (supportFragmentManager.findFragmentById(R.id.register_fragment) == null) {
+                supportFragmentManager.beginTransaction().apply {
+                    add(R.id.register_fragment, fragment)
+                    commit()
+                }
+            } else {
+                supportFragmentManager.beginTransaction().apply {
+                    replace(R.id.register_fragment, fragment)
+                    addToBackStack(null)
+                    commit()
+                }
+            }
+        }
+    }

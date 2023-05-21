@@ -10,6 +10,8 @@ import java.util.*
 class FakeRegisterDataSource : RegisterDataSource {
 
     override fun create(email: String, callBack: RegisterCallback) {
+
+
         Handler(Looper.getMainLooper()).postDelayed({
 
             val userAuth = DataBase.usersAuth.firstOrNull { email == it.email }
@@ -31,12 +33,16 @@ class FakeRegisterDataSource : RegisterDataSource {
 
             if (userAuth != null) {
                 callBack.onFailure("usuário já existe")
+
+
+
             } else {
-                val created = DataBase.usersAuth.add(
-                    UserAuth(UUID.randomUUID().toString(), name, email, password)
-                )
+                val newUser = UserAuth(UUID.randomUUID().toString(), name, email, password)
+
+                val created = DataBase.usersAuth.add(newUser)
 
                 if (created) {
+                    DataBase.sessoinAuth = newUser
                     callBack.onSuccess()
                 } else {
                     callBack.onFailure("Erro interno do servidor!")

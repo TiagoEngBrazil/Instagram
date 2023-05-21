@@ -18,7 +18,7 @@ class FakeDataSource : LoginDataSource {
                     callBack.onFailure("Senha incorreta!")
                 }
                 else -> {
-                    DataBase.sassoinAuth = userAuth
+                    DataBase.sessoinAuth = userAuth
                     callBack.onSuccess(userAuth)
                 }
             }

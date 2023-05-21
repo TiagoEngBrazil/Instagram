@@ -1,5 +1,6 @@
 package co.tiagoaguiar.course.instagram.Register.View
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -11,6 +12,8 @@ import co.tiagoaguiar.course.instagram.databinding.FragmentRegisterAddPhotoBindi
 class RegisterAddPhotoFragment : Fragment(R.layout.fragment_register_add_photo) {
 
     private var binding: FragmentRegisterAddPhotoBinding? = null
+
+    private var fragmentAttachListener: FragmentAttachListener? = null
 
 //    override fun onCreateView(
 //        inflater: LayoutInflater,
@@ -26,6 +29,29 @@ class RegisterAddPhotoFragment : Fragment(R.layout.fragment_register_add_photo) 
 
         binding = FragmentRegisterAddPhotoBinding.bind(view)
 
+        binding?.let {
+            with(it) {
+                registerBtnJump.setOnClickListener {
+                    fragmentAttachListener?.goToMainScreen()
+                }
+
+                registerBtnNext.isEnabled = true
+
+                registerBtnNext.setOnClickListener {
+                    openDialog()
+                }
+
+            }
+        }
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if (context is FragmentAttachListener)
+            fragmentAttachListener = context
+    }
+
+    private fun openDialog() {
         val custonDialog = CustonDialog(requireContext())
 
         custonDialog.setTitle(R.string.app_name)
@@ -36,14 +62,10 @@ class RegisterAddPhotoFragment : Fragment(R.layout.fragment_register_add_photo) 
                     Log.i("teste", "foto")
                 }
                 R.string.gallery -> {
-                    Log.i("teste", "galeria")
+                    fragmentAttachListener?.goToGalleryScreen()
                 }
             }
         }
-
-//        custonDialog.addButton({
-//
-//        }, R.string.photo, R.string.gallery)
 
         custonDialog.show()
     }
