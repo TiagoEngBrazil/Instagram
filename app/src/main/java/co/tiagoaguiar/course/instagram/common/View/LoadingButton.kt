@@ -13,7 +13,7 @@ import co.tiagoaguiar.course.instagram.R
 import kotlin.math.log
 
 
-class LoadingButton: FrameLayout {
+class       LoadingButton: FrameLayout {
 
     private lateinit var button: Button
     private lateinit var progress: ProgressBar
