@@ -1,8 +1,10 @@
 package co.tiagoaguiar.course.instagram.Register.data
 
+import android.net.Uri
 import android.os.Handler
 import android.os.Looper
 import co.tiagoaguiar.course.instagram.common.model.DataBase
+import co.tiagoaguiar.course.instagram.common.model.Photo
 import co.tiagoaguiar.course.instagram.common.model.UserAuth
 
 import java.util.*
@@ -35,7 +37,6 @@ class FakeRegisterDataSource : RegisterDataSource {
                 callBack.onFailure("usuário já existe")
 
 
-
             } else {
                 val newUser = UserAuth(UUID.randomUUID().toString(), name, email, password)
 
@@ -43,6 +44,30 @@ class FakeRegisterDataSource : RegisterDataSource {
 
                 if (created) {
                     DataBase.sessoinAuth = newUser
+                    callBack.onSuccess()
+                } else {
+                    callBack.onFailure("Erro interno do servidor!")
+                }
+            }
+
+            callBack.onComplete()
+        }, 2000)
+    }
+
+    override fun upDateUser(photoUri: Uri, callBack: RegisterCallback) {
+        Handler(Looper.getMainLooper()).postDelayed({
+
+            val userAuth = DataBase.sessoinAuth
+
+            if (userAuth == null) {
+                callBack.onFailure("usuário não encontrado!")
+
+            } else {
+                val newPhoto = Photo(userAuth.uuid, photoUri)
+
+                val created = DataBase.photos.add(newPhoto)
+
+                if (created) {
                     callBack.onSuccess()
                 } else {
                     callBack.onFailure("Erro interno do servidor!")

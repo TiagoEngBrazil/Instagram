@@ -6,6 +6,8 @@ object DataBase {
 
     val usersAuth = hashSetOf<UserAuth>()
 
+    val photos = hashSetOf<Photo>()
+
     var sessoinAuth: UserAuth? = null
 
     init {
