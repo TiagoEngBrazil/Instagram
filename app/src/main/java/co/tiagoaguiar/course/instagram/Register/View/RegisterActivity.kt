@@ -16,6 +16,7 @@ import co.tiagoaguiar.course.instagram.Register.View.RegisterNamePasswordFragmen
 import co.tiagoaguiar.course.instagram.Register.View.RegisterWelcomeFragment.Companion.KEY_NAME
 import co.tiagoaguiar.course.instagram.common.View.CropperImageFragment
 import co.tiagoaguiar.course.instagram.common.View.CropperImageFragment.Companion.KEY_URI
+import co.tiagoaguiar.course.instagram.common.extention.hidekeyboard
 import co.tiagoaguiar.course.instagram.databinding.ActivityRegisterBinding
 import co.tiagoaguiar.course.instagram.main.view.MainActivity
 import java.io.File
@@ -119,6 +120,7 @@ class RegisterActivity : AppCompatActivity(), FragmentAttachListener {
                 commit()
             }
         }
+        hidekeyboard()
     }
 
     override fun goToWelcomeScreen(name: String) {
