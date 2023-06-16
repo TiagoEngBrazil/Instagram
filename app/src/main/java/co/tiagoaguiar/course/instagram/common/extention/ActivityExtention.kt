@@ -1,5 +1,7 @@
 package co.tiagoaguiar.course.instagram.common.extention
 
+import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
 import android.app.Activity
 import android.view.View
 import android.view.inputmethod.InputMethodManager
@@ -11,4 +13,12 @@ fun Activity.hidekeyboard() {
     if (view == null) view = View(this)
 
     imm.hideSoftInputFromWindow(view.windowToken, 0)
+}
+
+fun Activity.animationEnd(callback: () -> Unit): AnimatorListenerAdapter {
+    return object: AnimatorListenerAdapter() {
+        override fun onAnimationEnd(animation: Animator?) {
+            callback.invoke()
+        }
+    }
 }

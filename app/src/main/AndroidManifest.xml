@@ -13,29 +13,26 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Instagram">
-        <activity android:name=".main.view.MainActivity"></activity>
-        <activity android:name=".Register.View.RegisterActivity"></activity>
-        <activity android:name=".login.view.LoginActivity">
+        <activity
+            android:name=".splash.view.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".main.view.MainActivity" />
+        <activity android:name=".Register.View.RegisterActivity" />
+        <activity android:name=".login.view.LoginActivity"/>
 
-       <provider
-           android:authorities="co.tiagoaguiar.course.instagram.fileprovider"
-           android:name="androidx.core.content.FileProvider"
-           android:exported="false"
-           android:grantUriPermissions="true"
-           >
-
-           <meta-data
-               android:name="android.support.FILE_PROVIDER_PATHS"
-               android:resource="@xml/file_paths"
-               />
-
-       </provider>
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="co.tiagoaguiar.course.instagram.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
     </application>
 
 </manifest>
