@@ -17,6 +17,7 @@ import co.tiagoaguiar.course.instagram.Register.View.RegisterWelcomeFragment.Com
 import co.tiagoaguiar.course.instagram.common.View.CropperImageFragment
 import co.tiagoaguiar.course.instagram.common.View.CropperImageFragment.Companion.KEY_URI
 import co.tiagoaguiar.course.instagram.common.extention.hidekeyboard
+import co.tiagoaguiar.course.instagram.common.extention.replaceFragment
 import co.tiagoaguiar.course.instagram.databinding.ActivityRegisterBinding
 import co.tiagoaguiar.course.instagram.main.view.MainActivity
 import java.io.File
@@ -107,19 +108,7 @@ class RegisterActivity : AppCompatActivity(), FragmentAttachListener {
     }
 
     private fun replaceFragment(fragment: Fragment) {
-
-        if (supportFragmentManager.findFragmentById(R.id.register_fragment) == null) {
-            supportFragmentManager.beginTransaction().apply {
-                add(R.id.register_fragment, fragment)
-                commit()
-            }
-        } else {
-            supportFragmentManager.beginTransaction().apply {
-                replace(R.id.register_fragment, fragment)
-                addToBackStack(null)
-                commit()
-            }
-        }
+        replaceFragment(R.id.register_fragment, fragment)
         hidekeyboard()
     }
 

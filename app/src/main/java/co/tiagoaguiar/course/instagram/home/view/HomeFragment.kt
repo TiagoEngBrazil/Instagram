@@ -1,29 +1,23 @@
-package co.tiagoaguiar.course.instagram.profile.view
+package co.tiagoaguiar.course.instagram.home.view
 
 import android.os.Bundle
 import android.view.*
 import android.widget.ImageView
-import androidx.appcompat.view.menu.MenuView
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import co.tiagoaguiar.course.instagram.R
-import java.util.zip.Inflater
 
-class FragmentProfile: Fragment() {
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_profile, container, false)
+class HomeFragment: Fragment() {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        return inflater.inflate(R.layout.fragment_home, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-       val rv = view.findViewById<RecyclerView>(R.id.profile_rv)
-        rv.layoutManager = GridLayoutManager(requireContext(), 3)
+        val rv = view.findViewById<RecyclerView>(R.id.home_rv)
+        rv.layoutManager = LinearLayoutManager(requireContext())
         rv.adapter = PostAdapter()
     }
 
@@ -33,16 +27,15 @@ class FragmentProfile: Fragment() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        super.onCreateOptionsMenu(menu, inflater)
         inflater.inflate(R.menu.menu_profile, menu)
+        super.onCreateOptionsMenu(menu, inflater)
     }
 
-    private class PostAdapter: RecyclerView.Adapter<PostAdapter.PostViewHolder> () {
-
+    private class PostAdapter : RecyclerView.Adapter<PostAdapter.PostViewHolder>() {
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PostViewHolder {
             return PostViewHolder(
-                LayoutInflater.from(parent.context).inflate(R.layout.item_profile_grid, parent, false)
+                LayoutInflater.from(parent.context).inflate(R.layout.item_post_list, parent, false)
             )
         }
 
@@ -54,12 +47,13 @@ class FragmentProfile: Fragment() {
             return 30
         }
 
-        private class PostViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
+
+        private class PostViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
             fun bind(image: Int) {
                 itemView.findViewById<ImageView>(R.id.home_img_post).setImageResource(image)
             }
         }
+
+
     }
-
-
 }
