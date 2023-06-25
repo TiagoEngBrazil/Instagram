@@ -30,9 +30,7 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
 
     private lateinit var profileFragment: Fragment
 
-    private lateinit var currenteFragment: Fragment
-
-    private lateinit var fragmentSavedState: HashMap<String, Fragment.SavedState?>
+    private var currenteFragment: Fragment? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,29 +53,13 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.title = ""
 
-        if (savedInstanceState == null) {
-            fragmentSavedState = HashMap()
-        } else {
-            savedInstanceState.getSerializable("fragmentState") as HashMap<String, Fragment.SavedState?>
-        }
-
         homeFragment = HomeFragment()
         searchFragment = SearchFragment()
         cameraFragment = CameraFragment()
         profileFragment = ProfileFragment()
 
-//        currenteFragment = homeFragment
-
-//        supportFragmentManager.beginTransaction().apply {
-//            add(R.id.main_fragment, profileFragment, "3").hide(profileFragment)
-//            add(R.id.main_fragment, cameraFragment, "2").hide(cameraFragment)
-//            add(R.id.main_fragment, searchFragment, "1").hide(searchFragment)
-//            add(R.id.main_fragment, homeFragment, "0")
-//            commit()
-//        }
-
         binding.mainBottomNav.setOnNavigationItemSelectedListener(this)
-//        binding.mainBottomNav.selectedItemId = R.id.menu_bottom_home
+        binding.mainBottomNav.selectedItemId = R.id.menu_bottom_home
     }
 
     private fun setScrollToolbarEnabled(enabled: Boolean) {
@@ -97,79 +79,39 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         }
     }
 
-    override fun onSaveInstanceState(outState: Bundle) {
-        outState.putSerializable("fragmentState", fragmentSavedState)
-        super.onSaveInstanceState(outState)
-    }
-
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         var scrollToolbarEnabled = false
 
-        val newFrag: Fragment? = when(item.itemId) {
+        when (item.itemId) {
             R.id.menu_bottom_home -> {
-                HomeFragment()
+                if (currenteFragment == homeFragment) return false
+                currenteFragment = homeFragment
+
+            }
+            R.id.menu_bottom_search -> {
+                if (currenteFragment == searchFragment) return false
+                currenteFragment = searchFragment
+
+            }
+            R.id.menu_bottom_add -> {
+                if (currenteFragment == cameraFragment) return false
+                currenteFragment = cameraFragment
+
             }
             R.id.menu_bottom_profile -> {
-                ProfileFragment()
-            } else -> null
-        }
-
-        val currFragment = supportFragmentManager.findFragmentById(R.id.main_fragment)
-
-        val fragmentTag = newFrag?.javaClass?.simpleName
-
-        if (!currFragment?.tag.equals(fragmentTag)) {
-            currFragment?.let { frag ->
-                fragmentSavedState.put(
-                    frag.tag!!,
-                    supportFragmentManager.saveFragmentInstanceState(frag)
-                )
+                if (currenteFragment == profileFragment) return false
+                currenteFragment = profileFragment
+                scrollToolbarEnabled = true
             }
         }
-
-        newFrag?.setInitialSavedState(fragmentSavedState[fragmentTag])
-        newFrag?.let {
-            supportFragmentManager.beginTransaction()
-                .replace(R.id.main_fragment, it, fragmentTag)
-                .addToBackStack(fragmentTag)
-                .commit()
-        }
-
-//        V1
-//        when (item.itemId) {
-//            R.id.menu_bottom_home -> {
-//                if (currenteFragment == homeFragment) return false
-//                supportFragmentManager.beginTransaction().hide(currenteFragment).show(homeFragment).commit()
-//                currenteFragment = homeFragment
-//
-//            }
-//            R.id.menu_bottom_search -> {
-//                if (currenteFragment == searchFragment) return false
-//                supportFragmentManager.beginTransaction().hide(currenteFragment).show(searchFragment).commit()
-//                currenteFragment = searchFragment
-//
-//            }
-//            R.id.menu_bottom_add -> {
-//                if (currenteFragment == cameraFragment) return false
-//                supportFragmentManager.beginTransaction().hide(cameraFragment).show(homeFragment).commit()
-//                currenteFragment = cameraFragment
-//
-//            }
-//            R.id.menu_bottom_profile -> {
-//                if (currenteFragment == profileFragment) return false
-//                supportFragmentManager.beginTransaction().hide(currenteFragment).show(profileFragment).commit()
-//                currenteFragment = profileFragment
-//                scrollToolbarEnabled = true
-//            }
-//        }
 
         setScrollToolbarEnabled(scrollToolbarEnabled)
 
-//        currenteFragment?.let {
-//
-//            replaceFragment(R.id.main_fragment, it)
-//
-//        }
+        currenteFragment?.let {
+
+            replaceFragment(R.id.main_fragment, it)
+
+        }
 
         return true
     }
