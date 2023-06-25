@@ -47,4 +47,5 @@
     <string name="e_mail">Email</string>
     <string name="passWord">Senha</string>
     <string name="Enter">Entrar</string>
+    <string name="empty_list">Nenhum registro encontrado!</string>
 </resources>

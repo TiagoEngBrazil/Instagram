@@ -8,7 +8,11 @@ object DataBase {
 
     val photos = hashSetOf<Photo>()
 
+    val posts = hashMapOf<String, Set<Post>>()
+
     var sessoinAuth: UserAuth? = null
+
+
 
     init {
         usersAuth.add(UserAuth(UUID.randomUUID().toString(), "UserA", "userA@gmail.com", "12345678"))
