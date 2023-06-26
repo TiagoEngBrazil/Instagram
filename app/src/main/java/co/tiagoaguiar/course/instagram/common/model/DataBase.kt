@@ -10,7 +10,11 @@ object DataBase {
 
     val posts = hashMapOf<String, Set<Post>>()
 
+    val feeds = hashMapOf<String, Set<Post>>()
+
     var sessoinAuth: UserAuth? = null
+
+
 
 
 
