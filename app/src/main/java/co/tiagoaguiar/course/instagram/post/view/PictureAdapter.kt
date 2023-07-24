@@ -1,6 +1,5 @@
 package co.tiagoaguiar.course.instagram.post.view
 
-import android.database.Cursor
 import android.net.Uri
 import android.os.Build
 import android.provider.MediaStore
@@ -11,8 +10,6 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import co.tiagoaguiar.course.instagram.R
-import java.lang.Long.getLong
-import java.lang.reflect.Array.getLong
 
 class PictureAdapter(private val onClick: (Uri) -> Unit) :
     RecyclerView.Adapter<PictureAdapter.PostViewHolder>() {
@@ -44,7 +41,7 @@ class PictureAdapter(private val onClick: (Uri) -> Unit) :
                     .setImageBitmap(bitmap)
             } else {
                 itemView.findViewById<ImageView>(R.id.item_profile_image_grid).setImageURI(image)
-//                MediaStore.Images.Thumbnails.getThumbnail(itemView.context.contentResolver, imageId, MediaStore.Images.Thumbnails.MINI_KIND, null)
+//                MediaStore.Images.Thumbnails.getThumbnail(itemView.context.contentResolver, image, MediaStore.Images.Thumbnails.MINI_KIND, null)
             }
             itemView.setOnClickListener {
                 onClick.invoke(image)
