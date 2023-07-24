@@ -1,0 +1,28 @@
+package co.tiagoaguiar.course.instagram.home.data
+
+import co.tiagoaguiar.course.instagram.common.base.Cache
+import co.tiagoaguiar.course.instagram.common.base.RequestCallback
+import co.tiagoaguiar.course.instagram.common.model.DataBase
+import co.tiagoaguiar.course.instagram.common.model.Post
+import co.tiagoaguiar.course.instagram.common.model.UserAuth
+
+class HomeLocalDataSource( private val feedCache: Cache<List<Post>>): HomeDataSource {
+
+    override fun fetchFeed(useUUID: String, callback: RequestCallback<List<Post>>) {
+        val posts = feedCache.get(useUUID)
+        if (posts != null) {
+            callback.onSuccess(posts)
+        } else {
+            callback.onFailure("Não existem posts!")
+        }
+        callback.onComplete()
+    }
+
+    override fun fetchSession(): UserAuth {
+        return DataBase.sessoinAuth ?: throw RuntimeException("Usuário não logado!!")
+    }
+
+    override fun putFeed(response: List<Post>?) {
+        feedCache.put(response)
+    }
+}
