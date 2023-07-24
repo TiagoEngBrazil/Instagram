@@ -4,7 +4,6 @@ import android.net.Uri
 import co.tiagoaguiar.course.instagram.add.Add
 import co.tiagoaguiar.course.instagram.add.data.AddRepository
 import co.tiagoaguiar.course.instagram.common.base.RequestCallback
-import javax.security.auth.callback.Callback
 
 class AddPresenter(
     private var view: Add.View? = null,

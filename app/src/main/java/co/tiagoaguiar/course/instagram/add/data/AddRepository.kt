@@ -2,7 +2,6 @@ package co.tiagoaguiar.course.instagram.add.data
 
 import android.net.Uri
 import co.tiagoaguiar.course.instagram.common.base.RequestCallback
-import co.tiagoaguiar.course.instagram.home.data.HomeFakeRemoteDataSource
 
 class AddRepository(
     private val remoteDataSource: AddFakeRemoteDataSource,
