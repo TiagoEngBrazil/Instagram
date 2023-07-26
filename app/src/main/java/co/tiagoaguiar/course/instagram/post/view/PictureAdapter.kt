@@ -2,7 +2,6 @@ package co.tiagoaguiar.course.instagram.post.view
 
 import android.net.Uri
 import android.os.Build
-import android.provider.MediaStore
 import android.util.Size
 import android.view.LayoutInflater
 import android.view.View
