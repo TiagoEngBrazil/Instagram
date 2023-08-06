@@ -40,33 +40,9 @@ object DataBase {
         posts[userB.uuid] = hashSetOf()
         feeds[userB.uuid] = hashSetOf()
 
-        feeds[userA.uuid]?.addAll(
-            arrayListOf(
-                Post(UUID.randomUUID().toString(),
-                    Uri.fromFile(File("/storage/emulated/0/Android/media/co.tiagoaguiar.course.instagram/Instagram/2023-07-15-22-09-19-211.jpg")),
-                    "desc",
-                    System.currentTimeMillis(),
-                    userA),
-                Post(UUID.randomUUID().toString(),
-                    Uri.fromFile(File("/storage/emulated/0/Android/media/co.tiagoaguiar.course.instagram/Instagram/2023-07-15-22-09-19-211.jpg")),
-                    "desc",
-                    System.currentTimeMillis(),
-                    userA),
-                Post(UUID.randomUUID().toString(),
-                    Uri.fromFile(File("/storage/emulated/0/Android/media/co.tiagoaguiar.course.instagram/Instagram/2023-07-15-22-09-19-211.jpg")),
-                    "desc",
-                    System.currentTimeMillis(),
-                    userA),
-                Post(UUID.randomUUID().toString(),
-                    Uri.fromFile(File("/storage/emulated/0/Android/media/co.tiagoaguiar.course.instagram/Instagram/2023-07-15-22-09-19-211.jpg")),
-                    "desc",
-                    System.currentTimeMillis(),
-                    userA),
-            )
-        )
-
-        feeds[userA.uuid]?.toList()?.let {
-            feeds[userB.uuid]?.addAll(it)
+        for (i in 0..30) {
+            val user = UserAuth(UUID.randomUUID().toString(), "User$i", "User$i@gmail.com", "123123123", null)
+            usersAuth.add(user)
         }
 
         sessoinAuth = usersAuth.first()
