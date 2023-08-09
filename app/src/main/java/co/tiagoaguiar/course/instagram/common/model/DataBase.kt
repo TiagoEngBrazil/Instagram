@@ -12,7 +12,7 @@ object DataBase {
 
     val feeds = hashMapOf<String, MutableSet<Post>>()
 
-    val follwers = hashMapOf<String, Set<String>>()
+    val follwers = hashMapOf<String, MutableSet<String>>()
 
     var sessoinAuth: UserAuth? = null
 
@@ -46,6 +46,8 @@ object DataBase {
         }
 
         sessoinAuth = usersAuth.first()
+
+        follwers[sessoinAuth!!.uuid]?.add(usersAuth[2].uuid)
     }
 
 }

@@ -2,6 +2,7 @@ package co.tiagoaguiar.course.instagram.main.view
 
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
 import android.view.WindowInsetsController
 import androidx.appcompat.app.AppCompatActivity
@@ -9,16 +10,17 @@ import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import co.tiagoaguiar.course.instagram.R
-import co.tiagoaguiar.course.instagram.post.view.AddFragment
 import co.tiagoaguiar.course.instagram.common.extention.replaceFragment
 import co.tiagoaguiar.course.instagram.databinding.ActivityMainBinding
 import co.tiagoaguiar.course.instagram.home.view.HomeFragment
+import co.tiagoaguiar.course.instagram.post.view.AddFragment
 import co.tiagoaguiar.course.instagram.profile.view.ProfileFragment
 import co.tiagoaguiar.course.instagram.search.view.SearchFragment
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
-class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemSelectedListener, AddFragment.AddListener {
+class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemSelectedListener,
+    AddFragment.AddListener, SearchFragment.SearchListner {
 
     private lateinit var binding: ActivityMainBinding
 
@@ -76,6 +78,19 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
             params.scrollFlags = 0
             coordinatorParams.behavior = null
             binding.mainAppBar.layoutParams = coordinatorParams
+        }
+    }
+
+    override fun goToProfile(uuid: String) {
+        val fragment = ProfileFragment().apply {
+            arguments = Bundle().apply {
+                putString(ProfileFragment.KEY_USER_ID, uuid)
+            }
+        }
+        supportFragmentManager.beginTransaction().apply {
+            replace(R.id.main_fragment, fragment, fragment.javaClass.simpleName + "detail")
+            addToBackStack(null)
+            commit()
         }
     }
 

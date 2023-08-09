@@ -8,9 +8,13 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import co.tiagoaguiar.course.instagram.R
 import co.tiagoaguiar.course.instagram.common.model.UserAuth
-import co.tiagoaguiar.course.instagram.profile.view.PostAdapter
 
-class searchAdapter: RecyclerView.Adapter<searchAdapter.searchViewHolder> () {
+
+class searchAdapter(
+    private val itemClick: (String) -> Unit
+): RecyclerView.Adapter<searchAdapter.searchViewHolder> (
+
+        ) {
 
     var items: List<UserAuth> = mutableListOf()
 
@@ -28,10 +32,13 @@ class searchAdapter: RecyclerView.Adapter<searchAdapter.searchViewHolder> () {
        return items.size
     }
 
-    class searchViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
+    inner class searchViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
         fun bind(user: UserAuth) {
             itemView.findViewById<ImageView>(R.id.search_img_user).setImageURI(user.photoUri)
             itemView.findViewById<TextView>(R.id.search_txt_username).text = user.name
+            itemView.setOnClickListener {
+                itemClick.invoke(user.uuid)
+            }
         }
     }
 }

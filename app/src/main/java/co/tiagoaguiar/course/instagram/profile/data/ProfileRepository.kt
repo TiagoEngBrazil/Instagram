@@ -11,15 +11,17 @@ class ProfileRepository(private val datasourceFactory: ProfileDataSourceFactory)
         localDataSource.putPosts(null)
     }
 
-    fun fetchUserProfile(callback: RequestCallback<UserAuth>) {
+    fun fetchUserProfile(uuid: String?, callback: RequestCallback<Pair<UserAuth, Boolean?>>) {
         val localDataSource = datasourceFactory.createLocalDataSource()
-        val userAuth = localDataSource.fetchSession()
+        val userId = uuid ?: localDataSource.fetchSession().uuid
 
-        val dataSource = datasourceFactory.createFromUser()
+        val dataSource = datasourceFactory.createFromUser(uuid)
 
-        dataSource.fetchUserProfile(userAuth.uuid, object : RequestCallback<UserAuth> {
-            override fun onSuccess(data: UserAuth) {
-                localDataSource.putUser(data)
+        dataSource.fetchUserProfile(userId, object : RequestCallback<Pair<UserAuth, Boolean?>> {
+            override fun onSuccess(data: Pair<UserAuth, Boolean?>) {
+                if (uuid == null) {
+                    localDataSource.putUser(data)
+                }
                 callback.onSuccess(data)
             }
 
@@ -33,15 +35,17 @@ class ProfileRepository(private val datasourceFactory: ProfileDataSourceFactory)
         })
     }
 
-    fun fetchUserPosts(callback: RequestCallback<List<Post>>) {
+    fun fetchUserPosts(uuid: String?, callback: RequestCallback<List<Post>>) {
         val localDataSource = datasourceFactory.createLocalDataSource()
-        val userAuth = localDataSource.fetchSession()
+        val userId = uuid ?: localDataSource.fetchSession().uuid
 
-        val dataSource = datasourceFactory.createFromPosts()
+        val dataSource = datasourceFactory.createFromPosts(uuid)
 
-        dataSource.fetchUserPosts(userAuth.uuid, object : RequestCallback<List<Post>> {
+        dataSource.fetchUserPosts(userId, object : RequestCallback<List<Post>> {
             override fun onSuccess(data: List<Post>) {
-                localDataSource.putPosts(data)
+                if (uuid == null) {
+                    localDataSource.putPosts(data)
+                }
                 callback.onSuccess(data)
             }
 

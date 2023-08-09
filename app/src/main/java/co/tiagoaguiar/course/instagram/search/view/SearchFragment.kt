@@ -2,7 +2,9 @@ package co.tiagoaguiar.course.instagram.search.view
 
 import android.app.SearchManager
 import android.content.Context
-import android.view.*
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.View
 import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.LinearLayoutManager
 import co.tiagoaguiar.course.instagram.R
@@ -13,6 +15,7 @@ import co.tiagoaguiar.course.instagram.databinding.FragmentSearchBinding
 import co.tiagoaguiar.course.instagram.search.Search
 import co.tiagoaguiar.course.instagram.search.presenter.SearchPresenter
 
+
 class SearchFragment : BaseFragment<FragmentSearchBinding, Search.Presenter>(
     R.layout.fragment_search,
     FragmentSearchBinding::bind
@@ -20,7 +23,16 @@ class SearchFragment : BaseFragment<FragmentSearchBinding, Search.Presenter>(
 
     override lateinit var presenter: Search.Presenter
 
-    private val adapter = searchAdapter()
+    private val adapter by lazy { searchAdapter(onItemClicked) }
+
+    private var searchListner: SearchListner? = null
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if (context is SearchListner) {
+            searchListner = context
+        }
+    }
 
 
     override fun setupViews() {
@@ -31,6 +43,11 @@ class SearchFragment : BaseFragment<FragmentSearchBinding, Search.Presenter>(
     override fun setupPresenter() {
         val repository = DependencyInjector.searchRepository()
         presenter = SearchPresenter(this, repository)
+    }
+
+    private val onItemClicked: (String) -> Unit = { uuid ->
+        // depois do click
+        searchListner?.goToProfile(uuid)
     }
 
     override fun getMenu() = R.menu.menu_search
@@ -54,25 +71,29 @@ class SearchFragment : BaseFragment<FragmentSearchBinding, Search.Presenter>(
                         presenter.fetchUsers(newText)
                         return true
                     }
-                return false
-            }
-        })
+                    return false
+                }
+            })
+        }
     }
-}
 
-override fun showProgress(enabled: Boolean) {
-    binding?.searchProgress?.visibility = if (enabled) View.VISIBLE else View.GONE
-}
+    override fun showProgress(enabled: Boolean) {
+        binding?.searchProgress?.visibility = if (enabled) View.VISIBLE else View.GONE
+    }
 
-override fun displayFullUsers(users: List<UserAuth>) {
-    binding?.searchTxtEmpty?.visibility = View.GONE
-    binding?.searchRv?.visibility = View.VISIBLE
-    adapter.items = users
-    adapter.notifyDataSetChanged()
-}
+    override fun displayFullUsers(users: List<UserAuth>) {
+        binding?.searchTxtEmpty?.visibility = View.GONE
+        binding?.searchRv?.visibility = View.VISIBLE
+        adapter.items = users
+        adapter.notifyDataSetChanged()
+    }
 
-override fun displayEmpityUsers() {
-    binding?.searchTxtEmpty?.visibility = View.VISIBLE
-    binding?.searchRv?.visibility = View.GONE
-}
+    override fun displayEmpityUsers() {
+        binding?.searchTxtEmpty?.visibility = View.VISIBLE
+        binding?.searchRv?.visibility = View.GONE
+    }
+
+    interface SearchListner {
+        fun goToProfile(uuid: String)
+    }
 }

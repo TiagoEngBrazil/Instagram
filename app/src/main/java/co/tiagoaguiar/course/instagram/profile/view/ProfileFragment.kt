@@ -24,6 +24,8 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding, Profile.Presenter>(
 
     private val adapter = PostAdapter()
 
+    private var uuid: String? = null
+
     override fun setupPresenter() {
         val repository = DependencyInjector.ProfileRepository()
         presenter = ProfilePresenter(this, repository)
@@ -31,18 +33,23 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding, Profile.Presenter>(
 
 
     override fun setupViews() {
+
+        uuid = arguments?.getString(KEY_USER_ID)
+
         binding?.profileRv?.layoutManager = GridLayoutManager(requireContext(), 3)
         binding?.profileRv?.adapter = adapter
         binding?.profileNavTabs?.setOnNavigationItemSelectedListener(this)
 
-        presenter.fetchUserProfile()
+        presenter.fetchUserProfile(uuid)
     }
 
     override fun showProgress(enabled: Boolean) {
         binding?.profileProgress?.visibility = if (enabled) View.VISIBLE else View.GONE
     }
 
-    override fun displayUserProfile(userAuth: UserAuth) {
+    override fun displayUserProfile(user: Pair<UserAuth, Boolean?>) {
+        val (userAuth, following) = user
+
         binding?.profileTxtPostsCount?.text = userAuth.postCount.toString()
         binding?.profileTxtCountFollowing?.text = userAuth.followingCount.toString()
         binding?.profileTxtCountFollowrs?.text = userAuth.followersCount.toString()
@@ -50,7 +57,13 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding, Profile.Presenter>(
         binding?.profileTxtBio?.text = "TODO"
         binding?.profileImgIcon?.setImageURI(userAuth.photoUri)
 
-        presenter?.fetchUserPosts()
+        binding?.profileBtnEditProfile?.text = when(following) {
+            null -> getString(R.string.edit_profile)
+            true -> getString(R.string.unfollow)
+            false -> getString(R.string.follow)
+        }
+
+        presenter?.fetchUserPosts(uuid)
     }
 
     override fun displayRequestFailure(message: String) {
@@ -83,5 +96,9 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding, Profile.Presenter>(
             }
         }
         return true
+    }
+
+    companion object {
+        const val KEY_USER_ID = "key_user_id"
     }
 }
