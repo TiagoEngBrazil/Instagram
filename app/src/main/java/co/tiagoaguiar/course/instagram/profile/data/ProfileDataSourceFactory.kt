@@ -14,6 +14,10 @@ class ProfileDataSourceFactory(
         return ProfileLocalDataSource(profileCache, postsCache)
     }
 
+    fun createRemoteDataSource(): ProfileDataSource {
+        return ProfileFakeRemoteDataSource()
+    }
+
     fun createFromUser(uuid: String?): ProfileDataSource {
         if (uuid != null)
             return ProfileFakeRemoteDataSource()

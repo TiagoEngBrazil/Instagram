@@ -40,6 +40,18 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding, Profile.Presenter>(
         binding?.profileRv?.adapter = adapter
         binding?.profileNavTabs?.setOnNavigationItemSelectedListener(this)
 
+        binding?.profileBtnEditProfile?.setOnClickListener {
+            if (it.tag == true) {
+                binding?.profileBtnEditProfile?.text = getString(R.string.follow)
+                binding?.profileBtnEditProfile?.tag = false
+                presenter.followUser(uuid, false)
+            } else if (it.tag == false) {
+                binding?.profileBtnEditProfile?.text = getString(R.string.unfollow)
+                binding?.profileBtnEditProfile?.tag = true
+                presenter.followUser(uuid, true)
+            }
+        }
+
         presenter.fetchUserProfile(uuid)
     }
 
@@ -57,11 +69,13 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding, Profile.Presenter>(
         binding?.profileTxtBio?.text = "TODO"
         binding?.profileImgIcon?.setImageURI(userAuth.photoUri)
 
-        binding?.profileBtnEditProfile?.text = when(following) {
+        binding?.profileBtnEditProfile?.text = when (following) {
             null -> getString(R.string.edit_profile)
             true -> getString(R.string.unfollow)
             false -> getString(R.string.follow)
         }
+
+        binding?.profileBtnEditProfile?.tag = following
 
         presenter?.fetchUserPosts(uuid)
     }
@@ -87,10 +101,10 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding, Profile.Presenter>(
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        when(item.itemId) {
+        when (item.itemId) {
             R.id.menu_profile_grid -> {
                 binding?.profileRv?.layoutManager = GridLayoutManager(requireContext(), 3)
-                }
+            }
             R.id.menu_profile_list -> {
                 binding?.profileRv?.layoutManager = LinearLayoutManager(requireContext())
             }
