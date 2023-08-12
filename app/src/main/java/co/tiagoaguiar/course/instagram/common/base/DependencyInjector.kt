@@ -2,6 +2,7 @@ package co.tiagoaguiar.course.instagram.common.base
 
 import android.content.Context
 import co.tiagoaguiar.course.instagram.Register.data.FakeRegisterDataSource
+import co.tiagoaguiar.course.instagram.Register.data.FireRegisterDataSource
 import co.tiagoaguiar.course.instagram.Register.data.RegisterRepository
 import co.tiagoaguiar.course.instagram.add.data.AddFakeRemoteDataSource
 import co.tiagoaguiar.course.instagram.add.data.AddLocalDataSource
@@ -33,7 +34,7 @@ object DependencyInjector {
     }
 
     fun registerEmailRepository() : RegisterRepository {
-        return RegisterRepository(FakeRegisterDataSource())
+        return RegisterRepository(FireRegisterDataSource())
     }
 
     fun searchRepository(): SearchRepository {

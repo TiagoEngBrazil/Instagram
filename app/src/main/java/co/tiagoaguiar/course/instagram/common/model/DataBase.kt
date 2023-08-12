@@ -45,9 +45,9 @@ object DataBase {
             usersAuth.add(user)
         }
 
-        sessoinAuth = usersAuth.first()
+//        sessoinAuth = usersAuth.first()
 
-        follwers[sessoinAuth!!.uuid]?.add(usersAuth[2].uuid)
+//        follwers[sessoinAuth!!.uuid]?.add(usersAuth[2].uuid)
     }
 
 }
