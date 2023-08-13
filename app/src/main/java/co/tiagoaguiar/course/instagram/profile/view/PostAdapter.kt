@@ -8,6 +8,9 @@ import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import co.tiagoaguiar.course.instagram.R
 import co.tiagoaguiar.course.instagram.common.model.Post
+import com.bumptech.glide.Glide
+import com.google.firebase.auth.ActionCodeUrl
+import java.net.URL
 
 class PostAdapter: RecyclerView.Adapter<PostAdapter.PostViewHolder> () {
 
@@ -21,7 +24,7 @@ class PostAdapter: RecyclerView.Adapter<PostAdapter.PostViewHolder> () {
     }
 
     override fun onBindViewHolder(holder: PostViewHolder, position: Int) {
-        holder.bind(items[position].uri)
+        holder.bind(items[position].photoUrl)
     }
 
     override fun getItemCount(): Int {
@@ -29,8 +32,8 @@ class PostAdapter: RecyclerView.Adapter<PostAdapter.PostViewHolder> () {
     }
 
     class PostViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
-        fun bind(image: Uri) {
-            itemView.findViewById<ImageView>(R.id.item_profile_image_grid).setImageURI(image)
+        fun bind(photoUrl: String?) {
+            Glide.with(itemView.context).load(photoUrl).into(itemView.findViewById(R.id.item_profile_image_grid))
         }
     }
 }

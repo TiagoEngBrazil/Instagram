@@ -1,19 +1,16 @@
 package co.tiagoaguiar.course.instagram.common.View
 
 import android.content.Context
-import android.content.res.TypedArray
 import android.util.AttributeSet
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.Button
 import android.widget.FrameLayout
 import android.widget.ProgressBar
 import co.tiagoaguiar.course.instagram.R
-import kotlin.math.log
 
 
-class       LoadingButton: FrameLayout {
+class LoadingButton : FrameLayout {
 
     private lateinit var button: Button
     private lateinit var progress: ProgressBar
@@ -21,16 +18,19 @@ class       LoadingButton: FrameLayout {
 
     constructor(context: Context) : super(context)
 
-    constructor(context: Context, attrs: AttributeSet?): super(context, attrs) {
+    constructor(context: Context, attrs: AttributeSet?) : super(context, attrs) {
         setup(context, attrs)
     }
 
-    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int): super(context, attrs, defStyleAttr) {
+    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(context,
+        attrs,
+        defStyleAttr) {
         setup(context, attrs)
     }
 
     private fun setup(context: Context, attrs: AttributeSet?) {
-        val inflater: LayoutInflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+        val inflater: LayoutInflater =
+            context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         inflater.inflate(R.layout.button_loading, this)
 
         val typedArray = context.obtainStyledAttributes(attrs, R.styleable.LoadingButton, 0, 0)
@@ -53,7 +53,8 @@ class       LoadingButton: FrameLayout {
         super.setEnabled(enabled)
         button.isEnabled = enabled
     }
-    public fun showProgress(enabled: Boolean) {
+
+    fun showProgress(enabled: Boolean) {
         if (enabled) {
             button.text = ""
             button.isEnabled = false

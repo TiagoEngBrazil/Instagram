@@ -19,7 +19,7 @@ class FakeDataSource : LoginDataSource {
                 }
                 else -> {
                     DataBase.sessoinAuth = userAuth
-                    callBack.onSuccess(userAuth)
+                    callBack.onSuccess()
                 }
             }
 
