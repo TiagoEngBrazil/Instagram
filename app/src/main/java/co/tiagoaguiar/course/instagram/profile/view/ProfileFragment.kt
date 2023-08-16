@@ -9,10 +9,12 @@ import co.tiagoaguiar.course.instagram.R
 import co.tiagoaguiar.course.instagram.common.base.BaseFragment
 import co.tiagoaguiar.course.instagram.common.base.DependencyInjector
 import co.tiagoaguiar.course.instagram.common.model.Post
+import co.tiagoaguiar.course.instagram.common.model.User
 import co.tiagoaguiar.course.instagram.common.model.UserAuth
 import co.tiagoaguiar.course.instagram.databinding.FragmentProfileBinding
 import co.tiagoaguiar.course.instagram.profile.Profile
 import co.tiagoaguiar.course.instagram.profile.presenter.ProfilePresenter
+import com.bumptech.glide.Glide
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class ProfileFragment : BaseFragment<FragmentProfileBinding, Profile.Presenter>(
@@ -59,15 +61,18 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding, Profile.Presenter>(
         binding?.profileProgress?.visibility = if (enabled) View.VISIBLE else View.GONE
     }
 
-    override fun displayUserProfile(user: Pair<UserAuth, Boolean?>) {
+    override fun displayUserProfile(user: Pair<User, Boolean?>) {
         val (userAuth, following) = user
 
         binding?.profileTxtPostsCount?.text = userAuth.postCount.toString()
-        binding?.profileTxtCountFollowing?.text = userAuth.followingCount.toString()
-        binding?.profileTxtCountFollowrs?.text = userAuth.followersCount.toString()
+        binding?.profileTxtCountFollowing?.text = userAuth.following.toString()
+        binding?.profileTxtCountFollowrs?.text = userAuth.followers.toString()
         binding?.profileTxtUserName?.text = userAuth.name
         binding?.profileTxtBio?.text = "TODO"
-        binding?.profileImgIcon?.setImageURI(userAuth.photoUri)
+
+        binding?.let {
+            Glide.with(requireContext()).load(userAuth.photoUrl).into(it.profileImgIcon)
+        }
 
         binding?.profileBtnEditProfile?.text = when (following) {
             null -> getString(R.string.edit_profile)

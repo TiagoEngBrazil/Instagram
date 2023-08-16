@@ -5,12 +5,13 @@ import android.os.Looper
 import co.tiagoaguiar.course.instagram.common.base.RequestCallback
 import co.tiagoaguiar.course.instagram.common.model.DataBase
 import co.tiagoaguiar.course.instagram.common.model.Post
+import co.tiagoaguiar.course.instagram.common.model.User
 import co.tiagoaguiar.course.instagram.common.model.UserAuth
 
 class ProfileFakeRemoteDataSource : ProfileDataSource {
     override fun fetchUserProfile(
         useUUID: String,
-        callback: RequestCallback<Pair<UserAuth, Boolean?>>,
+        callback: RequestCallback<Pair<User, Boolean?>>,
     ) {
         Handler(Looper.getMainLooper()).postDelayed({
 
@@ -18,14 +19,14 @@ class ProfileFakeRemoteDataSource : ProfileDataSource {
 
             if (userAuth != null) {
                 if (userAuth == DataBase.sessoinAuth) {
-                    callback.onSuccess(Pair(userAuth, null))
+//                    callback.onSuccess(Pair(userAuth, null))
                 } else {
                     val followings = DataBase.follwers[DataBase.sessoinAuth!!.uuid]
 
                     val destUser = followings?.firstOrNull { it == useUUID }
                     // destUder != null -> estou seguindo!
 
-                    callback.onSuccess(Pair(userAuth, destUser != null))
+//                    callback.onSuccess(Pair(userAuth, destUser != null))
                 }
             } else {
                 callback.onFailure("Usuário já cadastrado!")

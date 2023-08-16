@@ -5,6 +5,7 @@ import co.tiagoaguiar.course.instagram.common.base.BasePresenter
 import co.tiagoaguiar.course.instagram.common.base.BaseView
 import co.tiagoaguiar.course.instagram.common.model.UserAuth
 import co.tiagoaguiar.course.instagram.common.model.Post
+import co.tiagoaguiar.course.instagram.common.model.User
 
 interface Profile {
 
@@ -17,7 +18,7 @@ interface Profile {
 
     interface View: BaseView<Presenter> {
         fun showProgress(enabled: Boolean)
-        fun displayUserProfile(user: kotlin.Pair<UserAuth, Boolean?>)
+        fun displayUserProfile(user: kotlin.Pair<User, Boolean?>)
         fun displayRequestFailure(message: String)
         fun displayEmptyPosts()
         fun displayFullPosts(posts: List<Post>)

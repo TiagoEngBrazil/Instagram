@@ -9,9 +9,7 @@ interface HomeDataSource {
 
     fun fetchFeed(useUUID: String, callback: RequestCallback<List<Post>>)
 
-    fun fetchSession(): UserAuth { throw UnsupportedOperationException() }
-
-    fun putUser(response: UserAuth) { throw UnsupportedOperationException() }
+    fun fetchSession(): String { throw UnsupportedOperationException() }
 
     fun putFeed(response: List<Post>?) { throw UnsupportedOperationException() }
 }

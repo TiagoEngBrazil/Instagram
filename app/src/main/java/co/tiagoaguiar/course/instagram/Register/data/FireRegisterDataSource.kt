@@ -50,7 +50,7 @@ class FireRegisterDataSource : RegisterDataSource {
                                 "following" to 0,
                                 "postCount" to 0,
                                 "uuid" to uid,
-                                "photoURI" to null
+                                "photoUrl" to null,
                             )
                         )
                         .addOnSuccessListener {

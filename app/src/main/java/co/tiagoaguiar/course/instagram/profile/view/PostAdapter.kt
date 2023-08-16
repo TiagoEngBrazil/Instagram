@@ -1,16 +1,12 @@
 package co.tiagoaguiar.course.instagram.profile.view
 
-import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import co.tiagoaguiar.course.instagram.R
 import co.tiagoaguiar.course.instagram.common.model.Post
 import com.bumptech.glide.Glide
-import com.google.firebase.auth.ActionCodeUrl
-import java.net.URL
 
 class PostAdapter: RecyclerView.Adapter<PostAdapter.PostViewHolder> () {
 
